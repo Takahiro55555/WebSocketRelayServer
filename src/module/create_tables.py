@@ -13,7 +13,7 @@ define("sql_echo", default=False,
        help="If True, the SQLAlchemy Engine will log all statements")
 define("tokens_lifespan_sec", default=7776000, help="default lifespan: 90days")
 define("db_uri_type", default="sqlite:///",
-       help="DB name, such as 'sqlite' and 'mysql'. This option using as 'sqlite://<file_path>'")
+       help="DB name, such as 'sqlite:///' and 'mysql:///'. This option using as 'sqlite:///<file_path>'")
 
 Base = declarative_base()
 
