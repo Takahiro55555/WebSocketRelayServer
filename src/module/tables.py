@@ -9,13 +9,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
 
-define("sql_echo", default=False,
-       help="If True, the SQLAlchemy Engine will log all statements")
-define("tokens_lifespan_sec", default=7776000,
-       help="default lifespan: 7776000sec (90days)")
-define("db_uri_type", default="sqlite:///",
-       help="DB name, such as 'sqlite:///' and 'mysql:///'. This option using as 'sqlite:///<file_path>'")
-
 Base = declarative_base()
 
 
