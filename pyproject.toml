@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "websocket-relay-server"
+name = "websocket-camera-controll-server"
 version = "0.1.0"
 description = ""
 authors = ["Takahiro55555 <tkhr.corei7@gmail.com>"]
