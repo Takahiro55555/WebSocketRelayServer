@@ -8,6 +8,7 @@ from tornado.options import define, options
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import sqlalchemy.exc
 
 from module.tables import User
 
@@ -121,17 +122,38 @@ class AccountHundler(tornado.web.RequestHandler):
             self.write(json.dumps(msg))
             return
 
+        # パスワードのハッシュ化
         hashed_user_password = self.__hash_password(raw_user_password)
         del raw_user_password
 
+        # DBへの登録
         session = sessionmaker(bind=self.engine)()
         user = User()
         user.hashed_user_password = hashed_user_password
         user.email = user_email
-        session.add(instance=user)
-        session.commit()
+        try:
+            session.add(instance=user)
+            session.commit()
+        except sqlalchemy.exc.IntegrityError as e:
+            errors.append(
+                dict(
+                    field="userEmail",
+                    code="db_error",
+                    message=str(e)
+                )
+            )
+        if len(errors) != 0:
+            msg = dict(
+                message="Database error occurred",
+                errors=errors
+            )
+            self.write(json.dumps(msg))
+            return
 
-        self.write("OK")
+        msg = dict(
+            message="Success"
+        )
+        self.write(json.dumps(msg))
 
     @staticmethod
     def __hash_password(password, rounds=12):
