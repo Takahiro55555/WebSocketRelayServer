@@ -1,6 +1,8 @@
+# 標準ライブラリ
 import re
 import json
 
+# 外部ライブラリ
 import bcrypt
 
 import tornado.web
@@ -10,6 +12,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import sqlalchemy.exc
 
+# 自作モジュール
 from module.tables import User
 
 # HACK: エラーメッセージの作成をスマートにする
