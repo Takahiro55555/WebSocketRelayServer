@@ -31,7 +31,7 @@ class Token(Base):
     user_id = Column(Integer, ForeignKey(
         "users.user_id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
     expire_time = Column(DateTime, default=lambda: datetime.now(
-    ) + timedelta(seconds=options.token_lifespan_sec))
+    ) + timedelta(seconds=options.tokens_lifespan_sec))
     created_at = Column(DateTime, default=datetime.now)
 
 
