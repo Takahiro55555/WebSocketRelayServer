@@ -22,6 +22,7 @@ from tornado_options import *
 from module.relay_pair import RelayPair
 from module.tables import create_tables
 from module.account_hundler import AccountHundler
+from module.token_hundler import TokenHandler
 from module.ws_relay_hundler import WsRelayHundler
 
 
@@ -30,6 +31,7 @@ class Application(tornado.web.Application):
         handlers = [
             (r"/", RootHandler),
             (r"/api/v1/account", AccountHundler),
+            (r"/api/v1/token", TokenHandler),
             (r"/ws/v1/relay/([0-9a-zA-Z]+\-[0-9a-zA-Z]+)", WsRelayHundler),
         ]
 
@@ -52,7 +54,6 @@ if __name__ == "__main__":
     salt = bcrypt.gensalt(rounds=10, prefix=b"2a")
     options.hashed_admin_password = bcrypt.hashpw(
         options.admin_password.encode(), salt).decode()
-    print("admin pass: %s" % options.admin_password)
     options.admin_password = None
 
     # テーブルを作成する
