@@ -4,7 +4,7 @@ import tornado.websocket
 from tornado.options import define, options
 
 
-class WsRelayHundler(tornado.websocket.WebSocketHandler):
+class WsRelayHandler(tornado.websocket.WebSocketHandler):
     clients = dict()
     counter = 0
 

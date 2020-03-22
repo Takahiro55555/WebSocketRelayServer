@@ -19,7 +19,7 @@ from module.tables import User
 #       現在のままではタイプミスによる間違ったキーによるデータを送信してしまう可能性がある
 
 
-class AccountHundler(tornado.web.RequestHandler):
+class AccountHandler(tornado.web.RequestHandler):
     engine = create_engine(options.db_uri_type +
                            options.db_path, echo=options.sql_echo)
 

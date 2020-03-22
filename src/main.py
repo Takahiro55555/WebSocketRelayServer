@@ -21,7 +21,7 @@ from tornado.options import define, options
 from tornado_options import *
 from module.relay_pair import RelayPair
 from module.tables import create_tables
-from module.account_hundler import AccountHundler
+from module.account_hundler import AccountHandler
 from module.token_hundler import TokenHandler
 from module.ws_relay_hundler import WsRelayHundler
 
@@ -30,9 +30,9 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", RootHandler),
-            (r"/api/v1/account", AccountHundler),
+            (r"/api/v1/account", AccountHandler),
             (r"/api/v1/token", TokenHandler),
-            (r"/ws/v1/relay/([0-9a-zA-Z]+\-[0-9a-zA-Z]+)", WsRelayHundler),
+            (r"/ws/v1/relay/([0-9a-zA-Z]+\-[0-9a-zA-Z]+)", WsRelayHandler),
         ]
 
         settings = dict(
