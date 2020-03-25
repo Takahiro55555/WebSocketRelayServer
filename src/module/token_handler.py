@@ -91,7 +91,7 @@ class TokenHandler(tornado.web.RequestHandler):
         if result == None:
             del raw_user_password
             msg = dict(
-                message="%s is not exist",
+                message="%s is not exist" % user_email,
                 errors=[
                     dict(
                         field="userEmail",
