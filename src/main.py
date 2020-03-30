@@ -23,6 +23,7 @@ from module.relay_pair import RelayPair
 from module.tables import create_tables
 from module.account_handler import AccountHandler
 from module.token_handler import TokenHandler
+from module.relay_handler import RelayHandler
 from module.ws_relay_handler import WsRelayHandler
 
 
@@ -32,6 +33,7 @@ class Application(tornado.web.Application):
             (r"/", RootHandler),
             (r"/api/v1/account", AccountHandler),
             (r"/api/v1/token", TokenHandler),
+            (r"/api/v1/relay", RelayHandler),
             (r"/ws/v1/relay/([0-9a-zA-Z]+\-[0-9a-zA-Z]+)", WsRelayHandler),
         ]
 
