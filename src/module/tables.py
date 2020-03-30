@@ -32,6 +32,7 @@ class Token(Base):
         "users.user_id", onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
     expire_time = Column(DateTime, default=lambda: datetime.now(
     ) + timedelta(seconds=options.tokens_lifespan_sec))
+    is_valid = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.now)
 
 
@@ -41,6 +42,7 @@ class Relay(Base):
     hashed_relay_password = Column(Text, nullable=False)
     token_id = Column(Text, ForeignKey("tokens.token_id",
                                        onupdate="CASCADE", ondelete="CASCADE"), nullable=False)
+    last_access = Column(DateTime, default=datetime.now)
     is_valid = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.now)
 
