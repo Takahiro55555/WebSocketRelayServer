@@ -27,7 +27,7 @@ class TokenHandler(tornado.web.RequestHandler):
     engine = create_engine(
         options.db_uri_type + options.db_path, echo=options.sql_echo)
     token_nbytes = 32
-    token_passwd_nbytes = 64
+    token_passwd_nbytes = 36
     token_registration_try_time = 10  # トークンに重複が起きた際、トークンを再生成する回数
 
     def get(self):
