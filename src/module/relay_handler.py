@@ -29,6 +29,9 @@ class RelayHandler(tornado.web.RequestHandler):
     relay_registration_try_time = 10  # トークンに重複が起きた際、トークンを再生成する回数
 
     def get(self):
+        self.set_status(501, reason="Not Implemented")
+
+    def post(self):
         errors = []
 
         # 未入力フィールドの確認
