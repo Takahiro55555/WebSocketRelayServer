@@ -31,7 +31,7 @@ class TokenHandler(tornado.web.RequestHandler):
     token_registration_try_time = 10  # トークンに重複が起きた際、トークンを再生成する回数
 
     def get(self):
-        self.write("Token Hundler")
+        self.set_status(501, reason="Not Implemented")
 
     def post(self):
         errors = []
