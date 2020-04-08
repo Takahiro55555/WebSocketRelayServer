@@ -19,7 +19,6 @@ from tornado.options import define, options
 
 # 最初に以下のモジュールを読みこまないとその他のモジュールでオプションが見つからずにエラーが発生する
 from tornado_options import *
-from module.relay_pair import RelayPair
 from module.tables import create_tables
 from module.account_handler import AccountHandler
 from module.token_handler import TokenHandler
@@ -31,10 +30,10 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", RootHandler),
-            (r"/api/v1/account", AccountHandler),
-            (r"/api/v1/token", TokenHandler),
-            (r"/api/v1/relay", RelayHandler),
-            (r"/ws/v1/relay/([0-9a-zA-Z]+\-[0-9a-zA-Z]+)", WsRelayHandler),
+            (r"/api/v1/accounts", AccountHandler),
+            (r"/api/v1/tokens", TokenHandler),
+            (r"/api/v1/relays", RelayHandler),
+            (r"/ws/v1/relays/([0-9a-zA-Z]+\-[0-9a-zA-Z]+)", WsRelayHandler),
         ]
 
         settings = dict(
