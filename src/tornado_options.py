@@ -36,6 +36,8 @@ define("tokens_lifespan_sec", default=7776000,
        help="default lifespan: 7776000sec (90days)")
 define("db_uri_type", default="sqlite:///",
        help="DB name, such as 'sqlite:///' and 'mysql:///'. This option using as 'sqlite:///<file_path>'")
+define("relays_lifespan_sec", default=7776000,
+       help="default lifespan: 7776000sec (90days)")
 
 # NOTE: 設定ファイル名やパスをコマンドラインから受け取ることがあるため、はじめにコマンドラインのオプションを読み込む
 tornado.options.parse_command_line(final=False)
