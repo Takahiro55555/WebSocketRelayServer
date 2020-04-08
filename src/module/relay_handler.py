@@ -78,7 +78,7 @@ class RelayHandler(tornado.web.RequestHandler):
         session = sessionmaker(bind=self.engine)()
         try:
             result = session.query(Token.expire_time, Token.hashed_token_password).filter(
-                Token.token_id == token_id and Token.is_valid).one_or_none()
+                Token.token_id == token_id, Token.is_valid).one_or_none()
         except sqlalchemy.exc.IntegrityError as e:
             del raw_token_passwd, token_id
             msg = dict(
