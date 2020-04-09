@@ -56,7 +56,12 @@ class WsRelayHandler(tornado.websocket.WebSocketHandler):
             self.relay_paires[relay_id] = RelayPaire()
 
     def on_message(self, message):
-        msg = json.loads(message)
+        try:
+            msg = json.loads(message)
+        except json.JSONDecodeError:
+            self.close(code=5000, reason='Invalid format message')
+            return
+
         if not 'header' in msg:
             # TODO: ここにエラー処理を入れる
             return
