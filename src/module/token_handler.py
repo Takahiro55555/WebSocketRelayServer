@@ -1,5 +1,4 @@
 # 標準ライブラリ
-import json
 import logging
 import secrets
 
@@ -59,11 +58,9 @@ class TokenHandler(tornado.web.RequestHandler):
             )
         if len(errors) != 0:
             del raw_user_password
-            self.write(json.dumps(
-                dict(
-                    message="Missing argument",
-                    errors=errors
-                )
+            self.write(dict(
+                message="Missing argument",
+                errors=errors
             ))
             return
 
@@ -84,7 +81,7 @@ class TokenHandler(tornado.web.RequestHandler):
                     )
                 )]
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
 
         # ユーザが存在しなかった場合
@@ -100,7 +97,7 @@ class TokenHandler(tornado.web.RequestHandler):
                     )
                 ]
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
         hashed_user_password = result[0]
         user_id = result[1]
@@ -118,7 +115,7 @@ class TokenHandler(tornado.web.RequestHandler):
                     )
                 ]
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
         del raw_user_password
 
@@ -155,7 +152,7 @@ class TokenHandler(tornado.web.RequestHandler):
                 message="Database error occurred",
                 errors=errors
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
 
         # ユニークなトークンを生成できなかった場合のエラー（必ずしもそうとは限らない）
@@ -170,7 +167,7 @@ class TokenHandler(tornado.web.RequestHandler):
                     )
                 ]
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
 
         # ユーザが扱いやすいようにID部とパスワード部を結合し、送信
@@ -179,7 +176,7 @@ class TokenHandler(tornado.web.RequestHandler):
             message="Success",
             token=combined_token
         )
-        self.write(json.dumps(msg))
+        self.write(msg)
 
         del token_id, raw_token_passwd, combined_token
         session.close()

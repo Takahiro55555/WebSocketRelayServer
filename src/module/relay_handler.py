@@ -1,6 +1,5 @@
 # 標準ライブラリ
 import datetime
-import json
 import logging
 import secrets
 
@@ -49,11 +48,9 @@ class RelayHandler(tornado.web.RequestHandler):
 
         if len(errors) != 0:
             del combined_token
-            self.write(json.dumps(
-                dict(
-                    message="Argument error",
-                    errors=errors
-                )
+            self.write(dict(
+                message="Argument error",
+                errors=errors
             ))
             return
 
@@ -70,7 +67,7 @@ class RelayHandler(tornado.web.RequestHandler):
                     message="Invalid token format"
                 )]
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
         del combined_token
 
@@ -91,7 +88,7 @@ class RelayHandler(tornado.web.RequestHandler):
                     )
                 ]
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
 
         # トークンが存在しなかった場合
@@ -107,7 +104,7 @@ class RelayHandler(tornado.web.RequestHandler):
                 ]
             )
             del raw_token_passwd, token_id
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
         token_expire_time = result[0]
         hashed_token_password = result[1]
@@ -127,7 +124,7 @@ class RelayHandler(tornado.web.RequestHandler):
                     )
                 ]
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
 
         # 入力されたトークンパスワードの有効性を確認
@@ -143,7 +140,7 @@ class RelayHandler(tornado.web.RequestHandler):
                     )
                 ]
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
         del raw_token_passwd
 
@@ -180,7 +177,7 @@ class RelayHandler(tornado.web.RequestHandler):
                 message="Database error occurred",
                 errors=errors
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
 
         # ユニークなトークンを生成できなかった場合のエラー（必ずしもそうとは限らない）
@@ -195,7 +192,7 @@ class RelayHandler(tornado.web.RequestHandler):
                     )
                 ]
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
 
         # ユーザが扱いやすいようにID部とパスワード部を結合し、送信
@@ -204,7 +201,7 @@ class RelayHandler(tornado.web.RequestHandler):
             message="Success",
             relay=combined_relay
         )
-        self.write(json.dumps(msg))
+        self.write(msg)
 
         del relay_id, raw_relay_passwd, combined_relay
         session.close()

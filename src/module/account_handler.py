@@ -1,6 +1,5 @@
 # 標準ライブラリ
 import re
-import json
 
 # 外部ライブラリ
 import bcrypt
@@ -71,11 +70,9 @@ class AccountHandler(tornado.web.RequestHandler):
                 )
             )
         if len(errors) != 0:
-            self.write(json.dumps(
-                dict(
-                    message="Missing argument",
-                    errors=errors
-                )
+            self.write(dict(
+                message="Missing argument",
+                errors=errors
             ))
             return
 
@@ -92,7 +89,7 @@ class AccountHandler(tornado.web.RequestHandler):
                     )
                 ]
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
 
         # 管理者名の有効性を確認
@@ -107,7 +104,7 @@ class AccountHandler(tornado.web.RequestHandler):
                     )
                 ]
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
 
         # 管理者パスワードの有効性を確認
@@ -122,7 +119,7 @@ class AccountHandler(tornado.web.RequestHandler):
                     )
                 ]
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
 
         # パスワードのハッシュ化
@@ -150,13 +147,13 @@ class AccountHandler(tornado.web.RequestHandler):
                 message="Database error occurred",
                 errors=errors
             )
-            self.write(json.dumps(msg))
+            self.write(msg)
             return
 
         msg = dict(
             message="Success"
         )
-        self.write(json.dumps(msg))
+        self.write(msg)
 
     @staticmethod
     def __hash_password(password, rounds=12):

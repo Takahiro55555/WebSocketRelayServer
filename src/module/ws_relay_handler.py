@@ -91,7 +91,7 @@ class WsRelayHandler(tornado.websocket.WebSocketHandler):
                     code="duplicate_connection",
                     message="Already connected"
                 )]
-                self.write_message(json.dumps(response))
+                self.write_message(response)
                 return
             if not 'client_id' in msg_header:
                 self.close(code=5000, reason="Too few key")
@@ -129,7 +129,7 @@ class WsRelayHandler(tornado.websocket.WebSocketHandler):
                     code="permission_denied",
                     message="This operation is not permitted"
                 )]
-                self.write_message(json.dumps(response))
+                self.write_message(response)
                 return
             print(self.__relay_id)
             del self.relay_paires[self.__relay_id]

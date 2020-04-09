@@ -2,7 +2,6 @@
 #       コネクション切断時のステータスコードをきちんと考える
 
 import datetime
-import json
 import secrets
 
 # 外部ライブラリ
@@ -51,7 +50,7 @@ class RelayPaire:
                 code="duplicate_connection",
                 message="Already connected"
             )]
-            ws_con.write_message(json.dumps(response))
+            ws_con.write_message(response)
             return
         if valid_clients_num >= self.__connection_limit:
             ws_con.close(code=5000, reason="This relay has already reached its connection limit")
@@ -69,7 +68,7 @@ class RelayPaire:
             header = response_header,
             contents = None
         )
-        ws_con.write_message(json.dumps(response))
+        ws_con.write_message(response)
 
     def reconnect_client(self, ws_con, client_id):
         """
@@ -89,7 +88,7 @@ class RelayPaire:
                 code="duplicate_connection",
                 message="Already connected"
             )]
-            ws_con.write_message(json.dumps(response))
+            ws_con.write_message(response)
             return
         self.__ws_clients[client_id]["ws_con"] = ws_con
         ws_con.client_id = client_id
@@ -99,7 +98,7 @@ class RelayPaire:
             ),
             contents = None
         )
-        ws_con.write_message(json.dumps(response))
+        ws_con.write_message(response)
 
     def ws_con_close(self, ws_con):
         """
@@ -123,7 +122,7 @@ class RelayPaire:
         for key in self.__ws_clients:
             ws_con_tmp = self.__ws_clients[key]["ws_con"]
             if ws_con_tmp == ws_con:
-                ws_con_tmp.write_message(json.dumps(private_msg))
+                ws_con_tmp.write_message(private_msg)
                 ws_con_tmp.close()
                 self.__ws_clients[key]["ws_con"] = None
                 self.__ws_clients[key]["is_exited"] = True
