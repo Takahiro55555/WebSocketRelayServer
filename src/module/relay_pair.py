@@ -91,16 +91,7 @@ class RelayPaire:
             ws_con.write_message(response)
             return
         if self.__is_connectiong_client_id(client_id):
-            response = dict()
-            response["header"] = dict(
-                client_id = None
-            )
-            response["errors"] = [dict(
-                field="header.client_id",
-                code="already_connectiong",
-                message="Connection already exists by this client_id"
-            )]
-            ws_con.write_message(response)
+            ws_con.close(code=5000, reason='Connection already exists by this client_id')
             return
         self.__ws_clients[client_id]["ws_con"] = ws_con
         ws_con.client_id = client_id
