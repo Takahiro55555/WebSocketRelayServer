@@ -86,7 +86,19 @@ class RelayPaire:
             response["errors"] = [dict(
                 field="header.cmd",
                 code="duplicate_connection",
-                message="Already connected"
+                message="Already connected by this connection"
+            )]
+            ws_con.write_message(response)
+            return
+        if self.__is_connectiong_client_id(client_id):
+            response = dict()
+            response["header"] = dict(
+                client_id = None
+            )
+            response["errors"] = [dict(
+                field="header.client_id",
+                code="already_connectiong",
+                message="Connection already exists by this client_id"
             )]
             ws_con.write_message(response)
             return
