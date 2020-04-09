@@ -15,6 +15,12 @@ if( getParam('protocol') != null && getParam('relayId') != null) {
     document.getElementById('ws-url').innerText = 'Invalid URL Parameter!!!';
 }
 
+if ( localStorage.getItem(relayIdPublic) ){
+    makeToReconnectButton(document.getElementById('connect'));
+} else {
+    makeToConnectButton(document.getElementById('connect'));
+}
+
 document.getElementById('connect').addEventListener('click', function () {
     if(wsUrl == null){
         errorPrintln('[Parameter] 無効なURLパラメータです。');
@@ -80,6 +86,11 @@ document.getElementById('connect').addEventListener('click', function () {
     ws.onerror = function (error) {
         errorPrintln("[WebSocker] エラーが発生しました");
         isAvailableWebsocket = false;
+        if ( localStorage.getItem(relayIdPublic) ){
+            makeToReconnectButton(document.getElementById('connect'));
+        } else {
+            makeToConnectButton(document.getElementById('connect'));
+        }
     }
 
     ws.onclose = function (e) {
@@ -87,6 +98,12 @@ document.getElementById('connect').addEventListener('click', function () {
         logPrintln("[WebSocket] Code: " + String(e.code));
         logPrintln("[WebSocket] Reason: " + e.reason);
         isAvailableWebsocket = false;
+        
+        if ( localStorage.getItem(relayIdPublic) ){
+            makeToReconnectButton(document.getElementById('connect'));
+        } else {
+            makeToConnectButton(document.getElementById('connect'));
+        }
     }
 })
 
@@ -199,12 +216,21 @@ function makeToConnectButton(buttonElement){
     buttonElement.innerText = '接続';
     buttonElement.classList.add('btn-primary');
     buttonElement.classList.remove('btn-danger');
+    buttonElement.classList.remove('btn-success');
 }
 
 function makeToDisconnectButton(buttonElement){
     buttonElement.innerText = '切断';
     buttonElement.classList.add('btn-danger');
     buttonElement.classList.remove('btn-primary');
+    buttonElement.classList.remove('btn-success');
+}
+
+function makeToReconnectButton(buttonElement){
+    buttonElement.innerText = '再接続';
+    buttonElement.classList.add('btn-success');
+    buttonElement.classList.remove('btn-primary');
+    buttonElement.classList.remove('btn-danger');
 }
 
 /**
