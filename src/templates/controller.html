@@ -1,0 +1,40 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>DeviceOrientationApiTest</title>
+  <link rel="stylesheet" href="{{ static_url('css/base.css') }}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body id="body" class="container">
+  <div class="row">
+    <div class="col-12 mt-3">
+      <h1>TestPage</h1>
+    </div>
+    <div class="col-12 mt-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="cart-title">WebSocket 接続先</h5>
+          <div id="ws-url"></div>
+          <button id="connect" class="btn btn-primary btn-block mt-4">接続</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 mt-3" style="height: 20rem;">
+      <div class="card" style="height: 100%;">
+        <div class="card-body" style="height: 100%;">
+          <h5 class="cart-title">Console</h5>
+          <div id="console" class="console"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="{{ static_url('js/motion.js') }}"></script>
+
+</html>
