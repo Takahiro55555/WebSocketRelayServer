@@ -1,6 +1,5 @@
 # 標準ライブラリ
 import os
-import json
 import logging
 import secrets
 
@@ -20,6 +19,8 @@ from tornado.options import define, options
 # 最初に以下のモジュールを読みこまないとその他のモジュールでオプションが見つからずにエラーが発生する
 from tornado_options import *
 from module.tables import create_tables
+from module.root_handler import RootHandler
+from module.controller_handler import ControllerHandler
 from module.account_handler import AccountHandler
 from module.token_handler import TokenHandler
 from module.relay_handler import RelayHandler
@@ -30,6 +31,7 @@ class Application(tornado.web.Application):
     def __init__(self):
         handlers = [
             (r"/", RootHandler),
+            (r"/controller", ControllerHandler),
             (r"/api/v1/accounts", AccountHandler),
             (r"/api/v1/tokens", TokenHandler),
             (r"/api/v1/relays", RelayHandler),
@@ -44,11 +46,6 @@ class Application(tornado.web.Application):
         )
 
         tornado.web.Application.__init__(self, handlers, **settings)
-
-
-class RootHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write("Hello, world")
 
 
 if __name__ == "__main__":
