@@ -32,7 +32,6 @@ class WsRelayHandler(tornado.websocket.WebSocketHandler):
         return True
 
     def open(self, relay):
-        # TODO: リレーパID及びスワードの検証をすること
         relay_id, raw_relay_password = relay.split('-')
         self.__relay_id = relay_id
         try:
@@ -41,15 +40,14 @@ class WsRelayHandler(tornado.websocket.WebSocketHandler):
             self.close(code=5000, reason="Database error occurred")
             del raw_relay_password
             return
+        del raw_relay_password
 
         if not is_valid_relay:
             self.close(code=5000, reason="Invalid relay")
-            del raw_relay_password
             return
         
         if self.__is_expired(relay_id):
             self.close(code=5000, reason="This relay is already expired")
-            del raw_relay_password
             return
         
         if not relay_id in self.relay_paires:
