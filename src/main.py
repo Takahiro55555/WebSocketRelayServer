@@ -2,6 +2,7 @@
 import os
 import logging
 import secrets
+import ssl
 
 # 外部ライブラリ
 import bcrypt
@@ -58,5 +59,20 @@ if __name__ == "__main__":
     create_tables()
 
     app = Application()
-    app.listen(options.port)
+    # NOTE: HTTPServerではAutoreloadモードが使えない
+    #       Ref: https://www.tornadoweb.org/en/stable/guide/running.html
+    #       > Autoreload mode is not compatible with the multi-process mode of HTTPServer.
+    if options.debug:
+        app.listen(options.port)
+    else:
+        if options.use_ssl:
+            ssl_ctx = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+            ssl_ctx.load_cert_chain(options.ssl_crt_file_path, options.ssl_key_file_path)
+            server = tornado.httpserver.HTTPServer(app, ssl_options=ssl_ctx)
+        else:
+            server = tornado.httpserver.HTTPServer(app)
+        server.bind(options.port)
+        # NOTE: マルチプロセスにすると、同一のリレー(WebSocket)が別々のプロセスで生成されてしまい、
+        #       上手く転送をすることができなくなってしまう。
+        server.start(1)  # プロセス数を設定する
     tornado.ioloop.IOLoop.instance().start()

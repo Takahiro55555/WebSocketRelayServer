@@ -20,6 +20,11 @@ define("admin_password", secrets.token_urlsafe(),
 define("hashed_admin_password", secrets.token_urlsafe(),
        help="hashed admin passowrd")
 
+# SSL の設定
+define("use_ssl", default=False, type=bool, help="Enable SSL")
+define("ssl_crt_file_path", default="", type=str, help="SSL cert file`s absolute path")
+define("ssl_key_file_path", default="", type=str, help="SSL key file`s absolute path")
+
 # DBファイル名とパスの設定
 define("db_name", "RelayServer.sqlite3", help="sqlite file name")
 define("db_path", os.path.join(
