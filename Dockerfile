@@ -1,5 +1,14 @@
 FROM python:3.7
 
+# nginxのインストール
+RUN wget https://nginx.org/keys/nginx_signing.key && \
+    apt-key add nginx_signing.key && \
+    rm nginx_signing.key && \
+    echo "deb http://nginx.org/packages/debian/ buster nginx" >> /etc/apt/sources.list && \
+    echo "deb-src http://nginx.org/packages/debian/ buster nginx" >> /etc/apt/sources.list && \
+    apt update && \
+    apt -y install nginx
+
 WORKDIR /usr/src/app
 
 # poetryのインストール
