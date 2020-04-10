@@ -33,7 +33,7 @@ class WsRelayHandler(tornado.websocket.WebSocketHandler):
 
     def open(self, relay):
         relay_id, raw_relay_password = relay.split('-')
-        self.__relay_id = relay_id
+        self.__relay_id = None
         try:
             is_valid_relay = self.__is_valid(relay_id, raw_relay_password)
         except sqlalchemy.orm.exc.NoResultFound:
@@ -50,10 +50,13 @@ class WsRelayHandler(tornado.websocket.WebSocketHandler):
             self.close(code=5000, reason="This relay is already expired")
             return
         
+        self.__relay_id = relay_id
         if not relay_id in self.relay_paires:
             self.relay_paires[relay_id] = RelayPaire()
 
     def on_message(self, message):
+        if self.__relay_id == None:
+            return
         try:
             msg = json.loads(message)
         except json.JSONDecodeError:
