@@ -119,7 +119,7 @@ class RelayPaire:
         # そもそも登録されていなかった場合
         ws_con.close(code=5000, reason="Not registered to this relay")
 
-    def exit(self, ws_con, private_msg={}):
+    def exit(self, ws_con):
         """
         当該WebSocketを閉じ、退出フラグを立てる
         割り当てられたクライアントIDを使用しての再接続も不可能
@@ -127,8 +127,7 @@ class RelayPaire:
         for key in self.__ws_clients:
             ws_con_tmp = self.__ws_clients[key]["ws_con"]
             if ws_con_tmp == ws_con:
-                ws_con_tmp.write_message(private_msg)
-                ws_con_tmp.close()
+                ws_con_tmp.close(code=5000, reason="Closed by client")
                 self.__ws_clients[key]["ws_con"] = None
                 self.__ws_clients[key]["is_exited"] = True
                 break
