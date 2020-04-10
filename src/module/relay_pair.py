@@ -28,6 +28,8 @@ class RelayPaire:
             ws_con_tmp = self.__ws_clients[key]["ws_con"]
             if (not echo) and (ws_con == ws_con_tmp):
                 continue
+            if ws_con_tmp == None:
+                continue
             ws_con_tmp.write_message(public_msg)
 
     def connect_client(self, ws_con, msg={}):
