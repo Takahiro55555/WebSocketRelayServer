@@ -20,4 +20,8 @@ RUN export PATH="$HOME/.poetry/bin:$PATH" && \
     poetry export -f requirements.txt > requirements.txt && \
     pip install --no-cache-dir -r requirements.txt
 
-CMD [ "python", "./main.py" ]
+RUN echo "#!/usr/bin/env bash" >> /startup.sh && \
+    echo "service nginx start" >> /startup.sh && \
+    echo "python ./main.py" >> /startup.sh && \
+    chmod +x /startup.sh
+CMD ["/startup.sh"]
