@@ -51,7 +51,9 @@ class Application(tornado.web.Application):
 
 
 if __name__ == "__main__":
-    options.hashed_admin_password = hash_password(options.admin_password)
+    # 設定ファイルや、コマンドラインからハッシュ化されたパスワードが渡されていない場合
+    if options.hashed_admin_password == None:
+        options.hashed_admin_password = hash_password(options.admin_password)
     options.admin_password = None
 
     # テーブルを作成する

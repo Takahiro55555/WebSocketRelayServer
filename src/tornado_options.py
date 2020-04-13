@@ -13,11 +13,11 @@ from tornado.options import define, options
 
 define("port", default=80, type=int, help="port to listen on")
 define("debug", default=False, type=bool, help="enable debug mode")
-define("admin_email", secrets.token_urlsafe()+"@example.com",
+define("admin_email", secrets.token_urlsafe()+"@example.com", type=str,
        help="Default email is random string, so you must set 'admin_email' by hand when you use admin functions.")
-define("admin_password", secrets.token_urlsafe(),
+define("admin_password", secrets.token_urlsafe(), type=str,
        help="Default password is random string, so you must set 'admin_password' by hand when you use admin functions.")
-define("hashed_admin_password", secrets.token_urlsafe(),
+define("hashed_admin_password", None, type=str,
        help="hashed admin passowrd")
 
 # SSL の設定
