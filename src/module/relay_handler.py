@@ -4,8 +4,6 @@ import logging
 import secrets
 
 # 外部ライブラリ
-import bcrypt
-
 import tornado.web
 from tornado.options import define, options
 
@@ -15,6 +13,7 @@ import sqlalchemy.exc
 
 # 自作モジュール
 from module.tables import User, Token, Relay
+from module.password_hash import hash_password, check_password
 
 # HACK: エラーメッセージの作成をスマートにする
 #       現在のままではタイプミスによる間違ったキーによるデータを送信してしまう可能性がある
@@ -128,7 +127,7 @@ class RelayHandler(tornado.web.RequestHandler):
             return
 
         # 入力されたトークンパスワードの有効性を確認
-        if not self.__check_password(raw_token_passwd, hashed_token_password):
+        if not check_password(raw_token_passwd, hashed_token_password):
             del raw_token_passwd
             msg = dict(
                 message="Token passward is not correct",
@@ -146,7 +145,7 @@ class RelayHandler(tornado.web.RequestHandler):
 
         # リレーのパスワード部を生成
         raw_relay_passwd = secrets.token_hex(nbytes=self.relay_passwd_nbytes)
-        hashed_relay_passwd = self.__hash_password(raw_relay_passwd)
+        hashed_relay_passwd = hash_password(raw_relay_passwd)
 
         # トークンを生成
         # 重複が生じる可能性を考慮し、複数回トークンの生成を試みる
@@ -206,10 +205,3 @@ class RelayHandler(tornado.web.RequestHandler):
         del relay_id, raw_relay_passwd, combined_relay
         session.close()
 
-    @staticmethod
-    def __hash_password(password, rounds=12):
-        return bcrypt.hashpw(password.encode(), bcrypt.gensalt(rounds)).decode()
-
-    @staticmethod
-    def __check_password(user_password, hashed_password):
-        return bcrypt.checkpw(user_password.encode(), hashed_password.encode())

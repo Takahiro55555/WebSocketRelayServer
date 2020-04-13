@@ -3,8 +3,6 @@ import json
 from datetime import datetime, timedelta
 
 # 外部ライブラリ
-import bcrypt
-
 import tornado.websocket
 from tornado.options import define, options
 
@@ -15,6 +13,7 @@ import sqlalchemy.orm.exc
 # 自作モジュール
 from module.tables import Relay
 from module.relay_pair import RelayPaire
+from module.password_hash import hash_password, check_password
 
 # TODO: コネクション切断時のエラーコードをきちんと考える
 #       現状、すべて5000を返す
@@ -166,7 +165,7 @@ class WsRelayHandler(tornado.websocket.WebSocketHandler):
         relay_id = result[1]
 
         # 入力されたリレーの有効性パスワードの有効性を確認
-        if not self.__check_password(raw_relay_password, hashed_relay_password):
+        if not check_password(raw_relay_password, hashed_relay_password):
             del raw_relay_password
             return False
         del raw_relay_password
@@ -184,7 +183,3 @@ class WsRelayHandler(tornado.websocket.WebSocketHandler):
         
         created_at = result[0]
         return not (created_at + timedelta(seconds=options.relays_lifespan_sec)) > datetime.now()
-
-    @staticmethod
-    def __check_password(user_password, hashed_password):
-        return bcrypt.checkpw(user_password.encode(), hashed_password.encode())

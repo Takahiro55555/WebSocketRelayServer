@@ -16,6 +16,7 @@ import tornado.options
 from tornado.options import define, options
 
 # 自作モジュール
+from module.password_hash import hash_password, check_password
 
 # 最初に以下のモジュールを読みこまないとその他のモジュールでオプションが見つからずにエラーが発生する
 from tornado_options import *
@@ -50,9 +51,7 @@ class Application(tornado.web.Application):
 
 
 if __name__ == "__main__":
-    salt = bcrypt.gensalt(rounds=10, prefix=b"2a")
-    options.hashed_admin_password = bcrypt.hashpw(
-        options.admin_password.encode(), salt).decode()
+    options.hashed_admin_password = hash_password(options.admin_password)
     options.admin_password = None
 
     # テーブルを作成する

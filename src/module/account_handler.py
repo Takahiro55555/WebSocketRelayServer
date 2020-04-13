@@ -2,8 +2,6 @@
 import re
 
 # 外部ライブラリ
-import bcrypt
-
 import tornado.web
 from tornado.options import define, options
 
@@ -13,6 +11,7 @@ import sqlalchemy.exc
 
 # 自作モジュール
 from module.tables import User
+from module.password_hash import hash_password, check_password
 
 # HACK: エラーメッセージの作成をスマートにする
 #       現在のままではタイプミスによる間違ったキーによるデータを送信してしまう可能性がある
@@ -108,7 +107,7 @@ class AccountHandler(tornado.web.RequestHandler):
             return
 
         # 管理者パスワードの有効性を確認
-        if not self.__check_password(raw_admin_password, options.hashed_admin_password):
+        if not check_password(raw_admin_password, options.hashed_admin_password):
             msg = dict(
                 message="Admin passward is not correct",
                 errors=[
@@ -123,7 +122,7 @@ class AccountHandler(tornado.web.RequestHandler):
             return
 
         # パスワードのハッシュ化
-        hashed_user_password = self.__hash_password(raw_user_password)
+        hashed_user_password = hash_password(raw_user_password)
         del raw_user_password
 
         # DBへの登録
@@ -155,10 +154,3 @@ class AccountHandler(tornado.web.RequestHandler):
         )
         self.write(msg)
 
-    @staticmethod
-    def __hash_password(password, rounds=12):
-        return bcrypt.hashpw(password.encode(), bcrypt.gensalt(rounds)).decode()
-
-    @staticmethod
-    def __check_password(user_password, hashed_password):
-        return bcrypt.checkpw(user_password.encode(), hashed_password.encode())
