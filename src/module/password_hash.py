@@ -7,7 +7,14 @@ def hash_password(password, rounds=12):
 def check_password(user_password, hashed_password):
     return bcrypt.checkpw(user_password.encode(), hashed_password.encode())
 
-if __name__ == "__main__":
+def main():
     from getpass import getpass
-    hashed_password = hash_password(getpass())
+    raw_password = getpass()
+    if len(raw_password) < 8:
+        print("Too short pasword. We required more than 8 charactors.")
+        return
+    hashed_password = hash_password(raw_password)
     print(hashed_password)
+
+if __name__ == "__main__":
+    main()
