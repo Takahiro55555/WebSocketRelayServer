@@ -15,6 +15,7 @@ from module.password_hash import hash_password, check_password
 
 # HACK: エラーメッセージの作成をスマートにする
 #       現在のままではタイプミスによる間違ったキーによるデータを送信してしまう可能性がある
+#       データの受信もJSONで行うようにする
 
 
 class AccountHandler(tornado.web.RequestHandler):

@@ -17,7 +17,7 @@ from module.password_hash import hash_password, check_password
 
 # TODO: コネクション切断時のエラーコードをきちんと考える
 #       現状、すべて5000を返す
-
+#       XSSを防ぐために、送信する文字列のエスケープを行うようにする
 
 class WsRelayHandler(tornado.websocket.WebSocketHandler):
     relay_paires = dict()

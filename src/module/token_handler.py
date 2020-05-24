@@ -16,6 +16,7 @@ from module.password_hash import hash_password, check_password
 
 # HACK: エラーメッセージの作成をスマートにする
 #       現在のままではタイプミスによる間違ったキーによるデータを送信してしまう可能性がある
+#       データの受信もJSONで行うようにする
 #
 # NOTE: トークンは一意なID部とパスワード部から成り、ハイフンで区切る
 #       パスワード部はハッシュ化した後にDBへ登録する

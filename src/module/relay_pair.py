@@ -7,6 +7,9 @@ import secrets
 # 外部ライブラリ
 from tornado.options import define, options
 
+# TODO: XSSを防ぐために、送信する文字列のエスケープを行うようにする
+
+# HACK: client_id ではなく、 session_id のほうが適切
 
 class RelayPaire:
     """中継のために必要なデータ及びオブジェクト、関数を持つ
