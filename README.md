@@ -1,5 +1,7 @@
 # WebSocketRelayServer
 
+※）電気通信事業法の適用がある「他人の通信を媒介」するサービスとなってしまうため、本システムは一般公開しておりません。
+
 ## これは何？
 WebSocketのデータを中継するためのWebサーバです。
 PythonのWebフレームワークである
@@ -14,7 +16,7 @@ PythonのWebフレームワークである
 [jwilder/nginx-proxy](https://hub.docker.com/r/jwilder/nginx-proxy)
 というDockerイメージと
 [jrcs/letsencrypt-nginx-proxy-companion](https://hub.docker.com/r/jrcs/letsencrypt-nginx-proxy-companion)
-というDockerイメージを使用しました。
+というDockerイメージを使用し、公開しました。
 
 ## なぜ作った!?
 スマートフォンのブラウザから、ジャイロセンサーの値をRaspberry Piへ送信し、スマートフォンの傾きとRaspberryPiのカメラの傾きを連動させようと考えたのがきっかけです。
